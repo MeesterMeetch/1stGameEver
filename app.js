@@ -1,3 +1,7 @@
+$(document).ready(function() {
+  
+});
+
 console.log("hello constructors!");
 
 function Character(options) {
