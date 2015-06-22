@@ -56,16 +56,17 @@ position:absolute; left:400px; top:0px; height:25px;
   background-image:url(images/bg2.png);
 }
 
-.obs {
+/* .obs {
   z-index: 5;
   position: absolute;
-}
+} */
 
 .dimObs {
   z-index: 5;
   position: absolute;
 }
-.boardPiece {
+
+.activeObjs {
   z-index: 5;
   height: 250px;
   width: 100px;
