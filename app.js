@@ -33,26 +33,26 @@ function fishStep() {
 	if (cPos.y > maxHeight)
 		return gameOver();
 // collisions with obsticles
-  activeObs = $(".obs");
-	for (var i = activeObs.length-1; i >= 0; i--) {
-		var s = activeObs[i].style, x = parseInt(s.left), y = parseInt(s.top);
-		lo = Math.max(lo, x);
-		if (x + dimObs.width + m < cPos.x || x > cPos.x + cPos.width + m);
-		if (y + dimObs.height + m < cPos.y || y > cPos.y + cPos.height + m);
-		return gameOver();
-	}
-  //
-	// if (activeObs.length > 2 || lo > 900 || Math.random() >= 0.05 * (1+noClr))
-	// 	return;
-	// var og = cPos.h*2;
-	// var oh = og + Math.floor(Math.random() * (maxHeight-og+1));
-	// var obs = $("<img/>").addClass('dimObs obs').css({left:480, zIndex:3}).css(dimObs).attr('src', 'images/shark.gif')
-	// 	.appendTo(board).animate({left:-500}, Math.max(2000,3500-noClr*50), 'linear', function() {
-	// 		$('#score').text(' Score: ' + (score += 1 + Math.floor(++noClr/10)));
-	// 		this.remove();
-	// 	});
-	obs[0].style.top = oh + 'px';
-	obs[1].style.top = (oh - og - dimObs.height) + "px";
+  // activeObs = $(".obs");
+	// for (var i = activeObs.length-1; i >= 0; i--) {
+	// 	var s = activeObs[i].style, x = parseInt(s.left), y = parseInt(s.top);
+	// 	lo = Math.max(lo, x);
+	// 	if (x + dimObs.width + m < cPos.x || x > cPos.x + cPos.width + m);
+	// 	if (y + dimObs.height + m < cPos.y || y > cPos.y + cPos.height + m);
+	// 	return gameOver();
+	// }
+  // //
+	//  if (activeObs.length > 2 || lo > 900 || Math.random() >= 0.05 * (1+noClr))
+	//  	return;
+	// // var og = cPos.h*2;
+	// // var oh = og + Math.floor(Math.random() * (maxHeight-og+1));
+	// // var obs = $("<img/>").addClass('dimObs obs').css({left:480, zIndex:3}).css(dimObs).attr('src', 'images/shark.gif')
+	// // 	.appendTo(board).animate({left:-500}, Math.max(2000,3500-noClr*50), 'linear', function() {
+	// // 		$('#score').text(' Score: ' + (score += 1 + Math.floor(++noClr/10)));
+	// // 		this.remove();
+	// // 	});
+	// obs[0].style.top = oh + 'px';
+	// obs[1].style.top = (oh - og - dimObs.height) + "px";
 }
 
 //mousedown
