@@ -45,30 +45,32 @@ position:absolute; left:400px; top:0px; height:25px;
  #bGrnd {
   top:-20px;
   height:320px;
-  background-image:url(images/bg1.png);
+  background-image:url(images/bg1_Big.png);
   z-index: 1;
+  background-repeat: repeat-x;
 }
 
 #fGrnd {
   top: :515px;
   height:85px;
-  z-index:4;
+  z-index:2;
   background-image:url(images/bg2.png);
+  background-repeat: repeat-x;
 }
 
-/* .obs {
+.obs {
   z-index: 5;
-  position: absolute;
-} */
+/*   position: absolute; */
+}
 
 .dimObs {
   z-index: 5;
-  position: absolute;
+/*   position: absolute; */
 }
 
 .activeObjs {
   z-index: 5;
   height: 250px;
   width: 100px;
-  position: absolute;
+/*   position: absolute; */
 }
