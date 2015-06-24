@@ -39,8 +39,6 @@ function fishStep() {
 
 }
 
-
-
 //mousedown
 function onTap() {
 	if (state > 1) return;
@@ -53,13 +51,21 @@ function onTap() {
 			setInterval(function(){
 					x-=1;
 					$("#bGrnd").css("background-position", x + "px 0");
+			}, 30);
+	})
+
+		$(function moveFG(){
+			var x = 0;
+			setInterval(function(){
+					x-=1;
 					$("#fGrnd").css("background-position", x + "px 0");
-			}, 10);
+			}, 15);
 	})
 
 
+
 		$("#instr").hide();
-		tmStep = window.setInterval(fishStep, 30);
+		tmStep = window.setInterval(fishStep, 50);
 
 	}
 	curSpeed = initialSpeed;
