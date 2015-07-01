@@ -1,9 +1,91 @@
+
 var fish = null, board = null;
-var dimObs = { width:60, height:420 }, cPos = { x: 400, y:100, h:80, w:100 };
-var gravity = 0.5, initialSpeed = -7, curSpeed = 0;
+var dimShark = { width:100, height:500 }, cPos = { x: 80, y:100, h:40, w:50 };
+var gravity = 0.5, iniSpeed = -7, curSpeed = 0;
 var score = 0, noClr = 0, tmStep = 0, state = 0; 		// 0-not started,1-play,2-over;
-// var dimSharks = { width:100, hieght:60 }, cPos = { x: 1000 y:100, h:60, w:100};
-// var activeShark = $(activeShark);
+
+
+// this does the hooks //
+ (function($) {
+ 	$.cssNumber.rotate = true;
+ 	$.cssHooks.rotate = {
+ 		set : function(el, v) {
+ 			if (typeof v === 'string')
+ 				v = (v.indexOf("rad") != -1) ? parseInt(v) * 180 / Math.PI : parseInt(v);
+ 			v = (~~v);
+ 			if (v == ($.data(el, 'rotate') || 0)) return;
+ 			el.style["MozTransform"] = el.style["MozTransform"] = el.style["-webkit-transform"]
+ 				= el.style["transform"] = " rotate(" + (v % 360) + "deg)";
+ 			$.data(el, 'rotate', v);
+ 		},
+ 		get : function(el, computed) {
+ 			return $.data(el, 'rotate') || 0;
+ 		}
+ 	};
+ })(jQuery);
+// end of hooks //
+function gameOver() {
+	state = 2;
+	$(":animated").stop();
+	if (tmStep) tmStep = window.clearInterval(tmStep);
+	fish.animate({ top:board.height()-cPos.h, rotate:540}, 1000)
+		.animate({ top:board.height()-cPos.h}, 500, function() {
+			$('#score').text(' Score: ' + score);
+			start();
+		});
+}
+  function Parallax(elm, tmo) {
+  	elm.css('left', 0).animate({left:-15360}, {
+  			duration:tmo*1000, easing:'linear', step : PrlxStep,
+  			complete : function() { Parallax(elm, tmo); }
+  	});
+  }
+
+function fishStep() {
+	curSpeed += gravity;
+	cPos.y = Math.max(cPos.y + curSpeed, 0);
+	var ang = curSpeed * 5, mh = board.height()-cPos.h, m = -12, lo = 0, actShark = $('.obs');
+	fish.css({top: cPos.y, rotate:(ang < -20) ? -20 : (ang > 90) ? 90 : ang});
+	if (cPos.y > mh)
+		return gameOver();
+	for (var i = actShark.length-1; i >= 0; i--) {
+		var s = actShark[i].style, x = parseInt(s.left), y = parseInt(s.top);
+		lo = Math.max(lo, x);
+		if (x+dimShark.width +m < cPos.x || x > cPos.x+cPos.w+m)	continue;
+		if (y+dimShark.height+m < cPos.y || y > cPos.y+cPos.h+m) continue;
+		return gameOver();
+	}
+	if (actShark.length > 2 || lo > 300 || Math.random() >= 0.05 * (1+noClr))
+		return;
+    //.obs gap height * 2 ... double the height of the fish = the gap between the nets
+	var og = cPos.h * 5;
+    //.obs height = .obs gap + round down of: the math.random() * (maximum height-.obs gap +1)
+	var oh = og + Math.floor(Math.random() * (mh-og+1));
+    // .obs = 2 vines with added class of position absolute and .obs .  the css zIndex of 3 480 from the left.  with css of dimensions of the pipe with the attributes of vine image.
+	var obs = $("<img/><img/>").addClass('c obs').css({left:1500, zIndex:3}).css(dimShark).attr('src', 'images/coralReef.png')
+      //appendTo the board and animate it left -50.  ease linear.
+			//pick ease linear 2 seconds or (3.5 seconds - number sharks passed *50)
+		.appendTo(board).animate({left:-50}, Math.max(1000,2500-noClr*50), 'linear', function() {
+			$('#score').text(' Score: ' + (score += 1 + Math.floor(++noClr/10)));
+			this.remove();
+		});
+    //bottom net
+	obs[0].style.top = oh + 'px';
+    //top net
+	obs[1].style.top = (oh - og - dimShark.height) + "px";
+}
+function onTap() {
+	if (state > 1) return;
+	if (state == 0) {
+		state = 1;
+		$('#score').text(' Score: ' + (score = 0));
+		Parallax($('#bGrnd'), 240);
+		Parallax($('#fGrnd'), 80);
+		$('#instr').hide();
+		tmStep = window.setInterval(fishStep, 30);
+	}
+	curSpeed = iniSpeed;
+}
 
 $(document).ready(function() {
 	fish = $("#fish");
@@ -11,73 +93,3 @@ $(document).ready(function() {
 	board = $("#board").bind(evt, onTap);
 	start();
 });
-
-
-
-function gameOver() {
-	state = 2;
-	$(":animated").stop();
-	if (tmStep) tmStep = window.clearInterval(tmStep);
-	fish.animate({ top:board.height()-cPos.h}, 1000)
-		.animate({ top:board.height()-cPos.h}, 500, function() {
-			$("#score").text(" Score: " + score);
-			start();
-		});
-}
-
-
-
-function fishStep() {
-	curSpeed += gravity;
-	cPos.y = Math.max(cPos.y + curSpeed, 0);
-	maxHeight = board.height()-cPos.h, m = -12, lo = 0, activeShark = $('.obs');
-	fish.css({top: cPos.y});
-//height max
-	if (cPos.y > maxHeight)
-		return gameOver();
-// Objects, Appends, & Collisions here//
-
-}
-
-//mousedown
-function onTap() {
-	if (state > 1) return;
-	if (state === 0) {
-		state = 1;
-		$("#score").text(" Score: " + (score = 0));
-
-		$(function moveBG(){
-			var x = 0;
-			setInterval(function(){
-					x-=1;
-					$("#bGrnd").css("background-position", x + "px 0");
-			}, 30);
-	})
-
-		$(function moveFG(){
-			var x = 0;
-			setInterval(function(){
-					x-=1;
-					$("#fGrnd").css("background-position", x + "px 0");
-			}, 15);
-	})
-
-
-
-		$("#instr").hide();
-		tmStep = window.setInterval(fishStep, 50);
-
-	}
-	curSpeed = initialSpeed;
-}
-
-//1st click
-function start() {
-	state = 0;
-  noClr = 0;
-  score = 0;
-	cPos = { x: 80, y:100, h:40, w:50 };
-	fish.css({ left:cPos.x, top:cPos.y, width:cPos.w, height:cPos.h});
-	$(".obs").remove();
-	$("#instr").show();
-}

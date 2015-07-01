@@ -8,7 +8,7 @@
   left: 50px;
   top: 50px;
   width: 600px;
-  height: 300;
+  height: 300px;
   overflow: hidden;
 }
 
@@ -27,19 +27,27 @@ position:absolute; left:400px; top:0px; height:25px;
   text-align: -webkit-center;
 }
 
+#instr {
+  position: absolute;
+  left:425px;
+  top:75px;
+  z-index:5;
+  background-image: url(images/instr.png);
+}
 
 #fish {
   z-index: 5;
   position: absolute;
   width:40px;
+  left: 80px;
 }
 
-#instr {
+#shark {
+  z-index: 5;
   position: absolute;
-  left:205px;
-  top:75px;
-  z-index:5;
-  background-image: url(images/instr.png);
+  width:100px;
+  top: 100px;
+  left: 500px;
 }
 
  #bGrnd {
@@ -59,18 +67,29 @@ position:absolute; left:400px; top:0px; height:25px;
 }
 
 .obs {
+
+  z-index: 3;
+/*   position: absolute; */
+  width:100px;
+  top: 100px;
+  left: 500px;
   z-index: 5;
+
 /*   position: absolute; */
 }
 
+img.c {
+  position: absolute;
+}
+
 .dimObs {
-  z-index: 5;
+  z-index: 3;
 /*   position: absolute; */
 }
 
 .activeObjs {
-  z-index: 5;
-  height: 250px;
-  width: 100px;
-/*   position: absolute; */
+/*   z-index: 3;
+height: 250px;
+width: 100px; */
+   position: absolute;
 }
